@@ -5,7 +5,7 @@ import * as path from 'path';
 
 import { env } from "./env";
 
-const uploadToS3 = async ({ name, path }: {name: string, path: string}) => {
+const uploadToS3 = async ({ name, uploadPath }: {name: string, uploadPath: string}) => {
   console.log("Uploading backup to S3...");
 
   const bucket = env.AWS_S3_BUCKET;
@@ -24,8 +24,8 @@ const uploadToS3 = async ({ name, path }: {name: string, path: string}) => {
   await client.send(
     new PutObjectCommand({
       Bucket: bucket,
-      Key: path.join(env.AWS_S3_PATH, name),
-      Body: createReadStream(path),
+      Key: uploadPath.join(env.AWS_S3_PATH, name),
+      Body: createReadStream(uploadPath),
     })
   )
 
@@ -60,7 +60,7 @@ export const backup = async () => {
   const filepath = `/tmp/${filename}`
 
   await dumpToFile(filepath)
-  await uploadToS3({name: filename, path: filepath})
+  await uploadToS3({name: filename, uploadPath: filepath})
 
   console.log("DB backup complete...")
 }
