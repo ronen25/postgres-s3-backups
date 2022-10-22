@@ -24,7 +24,7 @@ const uploadToS3 = async ({ name, uploadPath }: {name: string, uploadPath: strin
   await client.send(
     new PutObjectCommand({
       Bucket: bucket,
-      Key: uploadPath.join(env.AWS_S3_PATH, name),
+      Key: path.join(env.AWS_S3_PATH, name),
       Body: createReadStream(uploadPath),
     })
   )
