@@ -1,7 +1,7 @@
 import { exec } from "child_process";
 import { PutObjectCommand, S3Client, S3ClientConfig } from "@aws-sdk/client-s3";
 import { createReadStream } from "fs";
-import path from 'path';
+import * as path from 'path';
 
 import { env } from "./env";
 
