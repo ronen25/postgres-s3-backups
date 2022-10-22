@@ -1,6 +1,7 @@
 import { exec } from "child_process";
 import { PutObjectCommand, S3Client, S3ClientConfig } from "@aws-sdk/client-s3";
 import { createReadStream } from "fs";
+import path from 'path';
 
 import { env } from "./env";
 
@@ -23,7 +24,7 @@ const uploadToS3 = async ({ name, path }: {name: string, path: string}) => {
   await client.send(
     new PutObjectCommand({
       Bucket: bucket,
-      Key: name,
+      Key: path.join(env.AWS_S3_PATH, name),
       Body: createReadStream(path),
     })
   )
